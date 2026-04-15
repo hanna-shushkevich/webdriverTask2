@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 public class GoogleSearchPage extends BasePage {
     private static final String GOOGLE_URL = "https://www.google.com/";
     private static final By COOKIES_ACCEPT_BUTTON = By.id("L2AGLb");
-    private static final By SEARCH_INPUT = By.xpath("//textarea");
+    private static final By SEARCH_INPUT = By.cssSelector("textarea.gLFyf");
     private static final By SEARCH_RESULTS = By.xpath("//div[@id='search']");
 
 

@@ -37,7 +37,6 @@ public abstract class BasePage {
 
     /**
      * Switches to a new window/tab that has been opened.
-     * Returns the number of windows after the switch.
      */
     public void switchToNewWindow() {
         String originalWindow = driver.getWindowHandle();

@@ -4,6 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,7 +15,7 @@ public class YouTubePage extends BasePage {
 
     private static final By VIDEO_CONTAINER = By.id("content");
     private static final By COOKIES_ACCEPT_BUTTON = By.xpath("//button[@aria-label='Accept all']");
-    private static final By VIEW_COUNT_ELEMENT = By.xpath("//span[contains(text(), 'views')] | //span[contains(text(), 'vista')] | //span[contains(text(), 'просмотр')]");
+    private static final By VIEW_COUNT_ELEMENT = By.xpath("//ytd-watch-info-text//yt-formatted-string[@id='info']");
 
 
     public YouTubePage(WebDriver driver) {
@@ -45,9 +47,7 @@ public class YouTubePage extends BasePage {
     public String getViewCount() {
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(VIDEO_CONTAINER));
-            WebElement info = wait.until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//ytd-watch-info-text//yt-formatted-string[@id='info']")
-            ));
+            WebElement info = wait.until(ExpectedConditions.visibilityOfElementLocated(VIEW_COUNT_ELEMENT));
     
             return info.getText();
         } catch (Exception e) {
