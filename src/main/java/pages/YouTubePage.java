@@ -1,8 +1,11 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.concurrent.TimeUnit;
@@ -11,12 +14,10 @@ import java.util.regex.Pattern;
 
 
 public class YouTubePage extends BasePage {
-    
 
-    private static final By VIDEO_CONTAINER = By.id("content");
     private static final By COOKIES_ACCEPT_BUTTON = By.xpath("//button[@aria-label='Accept all']");
     private static final By VIEW_COUNT_ELEMENT = By.xpath("//ytd-watch-info-text//yt-formatted-string[@id='info']");
-
+    private static final By VIDEO_CONTAINER = By.xpath("//div[@class='html5-video-container']");
 
     public YouTubePage(WebDriver driver) {
         super(driver);
@@ -110,6 +111,64 @@ public class YouTubePage extends BasePage {
         }
     
         throw new IllegalArgumentException("Cannot parse view count from: " + viewCountStr);
+    }
+
+    private void skipAdIfPresent() {
+        By skipAdButton = By.className("ytp-skip-ad-button");
+        try {
+            WebElement skipButton = wait.until(
+                ExpectedConditions.elementToBeClickable(skipAdButton)
+            );
+            skipButton.click();
+        } catch (Exception e) {
+            // No skip button, ad automatically closed after finished
+        }
+    }
+
+    public void pauseVideo() {
+        try {
+            skipAdIfPresent();
+            Thread.sleep(500);
+
+            driver.switchTo().activeElement().sendKeys(Keys.SPACE);
+
+            Thread.sleep(3000);
+
+            driver.switchTo().activeElement().sendKeys(Keys.SPACE);
+        } catch (Exception e) {
+        }
+    }
+
+    public void clickAndHoldToFastForward() {
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(VIDEO_CONTAINER));
+            WebElement videoContainer = driver.findElement(VIDEO_CONTAINER);
+
+            Actions actions = new Actions(driver);
+            actions.clickAndHold(videoContainer)
+                   .pause(3000)
+                   .release()
+                   .perform();
+        } catch (Exception e) {
+        }
+    }
+
+    public void scrollPage() {
+        try {
+            // Scroll page down using JavascriptExecutor
+            JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+            jsExecutor.executeScript("window.scrollBy(0, 500);");
+        } catch (Exception e) {
+        }
+    }
+
+    public void clickSubtitlesButton() {
+        try {
+            JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+            jsExecutor.executeScript("document.querySelector('.ytp-right-controls-left .ytp-subtitles-button').click();");
+        } catch (Exception e) {
+
+        }
     }
 
 }

@@ -52,8 +52,27 @@ public class BananaSearchTest {
         assertTrue(youTubePage.isOnYouTubeSite(), 
             "Step 4 Failed: Youtube is open");
 
+        
         assertTrue(youTubePage.hasMoreThan50MillionViews(), 
             "Step 5 Failed: Video should have more than 50 million views");
+
+        youTubePage.pauseVideo();
+        assertTrue(youTubePage.isOnYouTubeSite(), 
+            "Step 6 Failed: Still on YouTube page after pausing video");
+
+        youTubePage.clickAndHoldToFastForward();
+        assertTrue(youTubePage.isOnYouTubeSite(), 
+            "Step 7 Failed: Still on YouTube page after fast-forward");
+
+        youTubePage.clickSubtitlesButton();
+        assertTrue(youTubePage.isOnYouTubeSite(),
+                "Step 8 Failed: Still on YouTube page after clicking subtitles button");
+
+        youTubePage.scrollPage();
+        assertTrue(youTubePage.isOnYouTubeSite(), 
+            "Step 9 Failed: Still on YouTube page after scrolling");
+
+
     }
 
 
