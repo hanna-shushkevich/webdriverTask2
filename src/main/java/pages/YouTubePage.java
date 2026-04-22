@@ -22,6 +22,7 @@ YouTubePage extends BasePage {
     private static final String YOUTUBE_URL = "https://www.youtube.com/watch?v=wCkerYMffMo";
     private static final By SEARCH_BUTTON = By.xpath("//button[@aria-label='Search']");
     private static final By SUBSCRIBE_BUTTON = By.xpath("//button[contains(@aria-label, 'Subscribe')]");
+    private static final By SUBSCRIBE_MODAL = By.xpath("//ytd-modal-with-title-and-button-renderer//yt-formatted-string[@id='title' and contains(text(), 'Want to subscribe')]");
 
     public YouTubePage(WebDriver driver) {
         super(driver);
@@ -117,6 +118,7 @@ YouTubePage extends BasePage {
         throw new IllegalArgumentException("Cannot parse view count from: " + viewCountStr);
     }
 
+    
     private void skipAdIfPresent() {
         By skipAdButton = By.className("ytp-skip-ad-button");
 
@@ -131,19 +133,21 @@ YouTubePage extends BasePage {
         }
     }
 
+
     public void pauseVideo() {
-        try {
-            skipAdIfPresent();
-            Thread.sleep(500);
+     try {
+        skipAdIfPresent();
+        Thread.sleep(500);
 
-            driver.switchTo().activeElement().sendKeys(Keys.SPACE);
+        Actions actions = new Actions(driver);
+        actions.sendKeys(Keys.SPACE).perform();
 
-            Thread.sleep(3000);
+        Thread.sleep(3000);
 
-            driver.switchTo().activeElement().sendKeys(Keys.SPACE);
-        } catch (Exception e) {
-        }
-    }
+        actions.sendKeys(Keys.SPACE).perform();
+    } catch (Exception e) {
+
+    }}
 
     public void clickAndHoldToFastForward() {
         try {
@@ -247,6 +251,16 @@ YouTubePage extends BasePage {
                     // All click attempts failed
                 }
             }
+        }
+    }
+
+
+    public boolean isSubscribeModalPresent() {
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(SUBSCRIBE_MODAL));
+            return true;
+        } catch (Exception e) {
+            return false;
         }
     }
 

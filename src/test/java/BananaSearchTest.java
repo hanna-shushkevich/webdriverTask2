@@ -104,11 +104,12 @@ public class BananaSearchTest {
 
         youTubePage.scrollPage();
         assertTrue(youTubePage.isOnYouTubeSite(),
-                "Step 4 Failed: (Placeholder) Still on YouTube page");
+                "Step 4 Failed: Still on YouTube page");
 
         youTubePage.clickSubscribeButton();
-        assertTrue(youTubePage.isOnYouTubeSite(),
-                "Step 3 Failed: Still on YouTube page");
+        assertTrue(youTubePage.isSubscribeModalPresent(),
+                "Step 3 Failed: Subscribe modal is shown");
+
 
 
     }
