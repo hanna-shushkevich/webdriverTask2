@@ -22,6 +22,7 @@ public class GoogleSearchPage extends BasePage {
         acceptCookiesIfPresent();
     }
 
+
     private void acceptCookiesIfPresent() {
         try {
             WebElement acceptButton = wait.until(

@@ -13,11 +13,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public class YouTubePage extends BasePage {
+public class
+YouTubePage extends BasePage {
 
     private static final By COOKIES_ACCEPT_BUTTON = By.xpath("//button[@aria-label='Accept all']");
     private static final By VIEW_COUNT_ELEMENT = By.xpath("//ytd-watch-info-text//yt-formatted-string[@id='info']");
     private static final By VIDEO_CONTAINER = By.xpath("//div[@class='html5-video-container']");
+    private static final String YOUTUBE_URL = "https://www.youtube.com/watch?v=wCkerYMffMo";
+    private static final By SEARCH_BUTTON = By.xpath("//button[@aria-label='Search']");
+    private static final By SUBSCRIBE_BUTTON = By.xpath("//button[contains(@aria-label, 'Subscribe')]");
 
     public YouTubePage(WebDriver driver) {
         super(driver);
@@ -115,7 +119,9 @@ public class YouTubePage extends BasePage {
 
     private void skipAdIfPresent() {
         By skipAdButton = By.className("ytp-skip-ad-button");
+
         try {
+            Thread.sleep(2000);
             WebElement skipButton = wait.until(
                 ExpectedConditions.elementToBeClickable(skipAdButton)
             );
@@ -141,7 +147,7 @@ public class YouTubePage extends BasePage {
 
     public void clickAndHoldToFastForward() {
         try {
-            wait.until(ExpectedConditions.visibilityOfElementLocated(VIDEO_CONTAINER));
+           // wait.until(ExpectedConditions.visibilityOfElementLocated(VIDEO_CONTAINER));
             WebElement videoContainer = driver.findElement(VIDEO_CONTAINER);
 
             Actions actions = new Actions(driver);
@@ -155,12 +161,14 @@ public class YouTubePage extends BasePage {
 
     public void scrollPage() {
         try {
-            // Scroll page down using JavascriptExecutor
             JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
             jsExecutor.executeScript("window.scrollBy(0, 500);");
         } catch (Exception e) {
         }
     }
+
+
+    /*
 
     public void clickSubtitlesButton() {
         try {
@@ -170,6 +178,81 @@ public class YouTubePage extends BasePage {
 
         }
     }
+*/
+    public void clickSearchButton() {
+        try {
+            // Wait for the button to be present
+            wait.until(
+                ExpectedConditions.elementToBeClickable(SEARCH_BUTTON)
+            );
+            
+            // Click via JavaScript with the element
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            WebElement searchButton = driver.findElement(SEARCH_BUTTON);
+            js.executeScript("arguments[0].click();", searchButton);
+            Thread.sleep(500);
+        } catch (Exception e) {
+            // Fallback: Try clicking by CSS class using JS
+            try {
+                JavascriptExecutor js = (JavascriptExecutor) driver;
+                js.executeScript(
+                    "var btn = document.querySelector('button.ytSearchboxComponentSearchButton'); " +
+                    "if(btn) { btn.click(); }"
+                );
+                Thread.sleep(500);
+            } catch (Exception ex) {
+                // Last resort: Try focus and Enter key
+                try {
+                    WebElement searchButton2 = driver.findElement(SEARCH_BUTTON);
+                    JavascriptExecutor js2 = (JavascriptExecutor) driver;
+                    js2.executeScript("arguments[0].focus();", searchButton2);
+                    searchButton2.sendKeys(Keys.ENTER);
+                    Thread.sleep(500);
+                } catch (Exception exl) {
+                    // All click attempts failed
+                }
+            }
+        }
+    }
 
+    public void clickSubscribeButton() {
+        try {
+            wait.until(
+                ExpectedConditions.elementToBeClickable(SUBSCRIBE_BUTTON)
+            );
+            
+            // Click via JavaScript with the element
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            WebElement subscribeButton = driver.findElement(SUBSCRIBE_BUTTON);
+            js.executeScript("arguments[0].click();", subscribeButton);
+            Thread.sleep(500);
+        } catch (Exception e) {
+            // Fallback: Try clicking by aria-label using JS
+            try {
+                JavascriptExecutor js = (JavascriptExecutor) driver;
+                js.executeScript(
+                    "var btn = document.querySelector('button[aria-label*=\"Subscribe\"]'); " +
+                    "if(btn) { btn.click(); }"
+                );
+                Thread.sleep(500);
+            } catch (Exception ex) {
+                // Last resort: Try focus and Enter key
+                try {
+                    WebElement subscribeButton2 = driver.findElement(SUBSCRIBE_BUTTON);
+                    JavascriptExecutor js2 = (JavascriptExecutor) driver;
+                    js2.executeScript("arguments[0].focus();", subscribeButton2);
+                    subscribeButton2.sendKeys(Keys.ENTER);
+                    Thread.sleep(500);
+                } catch (Exception exl) {
+                    // All click attempts failed
+                }
+            }
+        }
+    }
+
+    public void openYoutubeVideo() {
+        navigateTo(YOUTUBE_URL);
+        acceptCookiesIfPresent();
+    }
 }
 

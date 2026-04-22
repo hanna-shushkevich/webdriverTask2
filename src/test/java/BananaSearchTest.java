@@ -1,3 +1,7 @@
+import org.openqa.selenium.Platform;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import pages.GoogleSearchPage;
 import pages.YouTubePage;
 import org.junit.jupiter.api.AfterEach;
@@ -6,6 +10,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import utils.DriverManager;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -25,13 +33,13 @@ public class BananaSearchTest {
 
 
     @BeforeEach
-    public void setUp() {
-        driver = DriverManager.getDriver();
+    public void setUp(){
+      driver = DriverManager.getDriver();
         googleSearchPage = new GoogleSearchPage(driver);
         youTubePage = new YouTubePage(driver);
     }
 
-
+/*
     @Test
     @DisplayName("Banana Song YouTube Search")
     public void testBananaSearchYouTubeScenario() {
@@ -71,6 +79,36 @@ public class BananaSearchTest {
         youTubePage.scrollPage();
         assertTrue(youTubePage.isOnYouTubeSite(), 
             "Step 9 Failed: Still on YouTube page after scrolling");
+
+
+    }
+*/ 
+
+    @Test
+    @DisplayName("Selenium Grid")
+    public void seleniumGridTest()  {
+
+
+        // Directly open YouTube video to avoid Google Search captcha
+        youTubePage.openYoutubeVideo();
+
+
+        youTubePage.pauseVideo();
+        assertTrue(youTubePage.isOnYouTubeSite(),
+                "Step 1 Failed: (Placeholder) Still on YouTube page");
+
+
+        youTubePage.clickAndHoldToFastForward();
+        assertTrue(youTubePage.isOnYouTubeSite(),
+                "Step 2 Failed: (Placeholder) Still on YouTube page");
+
+        youTubePage.scrollPage();
+        assertTrue(youTubePage.isOnYouTubeSite(),
+                "Step 4 Failed: (Placeholder) Still on YouTube page");
+
+        youTubePage.clickSubscribeButton();
+        assertTrue(youTubePage.isOnYouTubeSite(),
+                "Step 3 Failed: Still on YouTube page");
 
 
     }

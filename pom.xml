@@ -39,6 +39,14 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- JUnit 5 Parameterized Tests -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -47,6 +55,13 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.2</version>
+                <configuration>
+                    <!-- Enable parallel test execution -->
+                    <parallel>methods</parallel>
+                    <threadCount>2</threadCount>
+                    <!-- Per method timeout to prevent hanging tests -->
+                    <forkedProcessTimeoutInSeconds>600</forkedProcessTimeoutInSeconds>
+                </configuration>
             </plugin>
         </plugins>
     </build>
