@@ -1,48 +1,30 @@
-import org.openqa.selenium.Platform;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import pages.GoogleSearchPage;
 import pages.YouTubePage;
-import org.junit.jupiter.api.AfterEach;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
-import utils.DriverManager;
-
-import java.net.MalformedURLException;
-import java.net.URL;
+import driver.DriverManager;
+import utils.ScreenshotUtility;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Scenario:
- •	Open Google Search;
- •	Search for ‘Banana Song’;
- •	Find a Youtube link (‘href’ contains ‘youtube.com’) with ‘Despicable Me 2’ in the text, follow this link;
- •	Assert that we are on Youtube site (page title);
- •	Assert that video was watched more than 50 million times
- */
 
-public class BananaSearchTest {
-    private WebDriver driver;
+public class BananaSearchTest extends CommonConditions {
+    private static final Logger logger = LogManager.getLogger(BananaSearchTest.class);
+
     private GoogleSearchPage googleSearchPage;
     private YouTubePage youTubePage;
 
 
-
-    @BeforeEach
-    public void setUp(){
-      driver = DriverManager.getDriver();
-        googleSearchPage = new GoogleSearchPage(driver);
-        youTubePage = new YouTubePage(driver);
-    }
-
-/*
+/*  Failing due to Google captcha, replaced with directly navigating to Youtube
     @Test
     @DisplayName("Banana Song YouTube Search")
     public void testBananaSearchYouTubeScenario() {
+        googleSearchPage = new GoogleSearchPage(driver);
+        youTubePage = new YouTubePage(driver);
 
         googleSearchPage.openGoogle();
         assertTrue(googleSearchPage.isOnGoogleSearchPage(), 
@@ -82,42 +64,64 @@ public class BananaSearchTest {
 
 
     }
-*/ 
-
+*/
+    /**
+     * Scenario:
+     •	Open YouTube video by link
+     •	Pause-resume the video
+     •	Fast-forward the video
+     •	Scroll the page
+     •	Click subscribe button
+     */
     @Test
     @DisplayName("Selenium Grid")
     public void seleniumGridTest()  {
+        try {
+            logger.info("Test: Selenium Grid - Starting YouTube video interaction test");
+            youTubePage = new YouTubePage(driver);
 
+            // Directly open YouTube video to avoid Google Search captcha
+            logger.info("Step 1: Opening YouTube video");
+            youTubePage.openYoutubeVideo();
+            logger.info("Step 1: Video page loaded successfully");
 
-        // Directly open YouTube video to avoid Google Search captcha
-        youTubePage.openYoutubeVideo();
+            logger.info("Step 2: Pausing video");
+            youTubePage.pauseVideo();
+            assertTrue(youTubePage.isOnYouTubeSite(),
+                    "Step 2 Failed: (Placeholder) Not on on YouTube page after pausing video");
+            logger.info("Step 2: Video paused successfully");
 
+            logger.info("Step 3: Fast-forwarding video");
+            youTubePage.clickAndHoldToFastForward();
+            assertTrue(youTubePage.isOnYouTubeSite(),
+                    "Step 3 Failed: (Placeholder) Not on on YouTube page after fast-forwarding video");
+            logger.info("Step 3: Video fast-forward completed");
 
-        youTubePage.pauseVideo();
-        assertTrue(youTubePage.isOnYouTubeSite(),
-                "Step 1 Failed: (Placeholder) Still on YouTube page");
+            logger.info("Step 4: Scrolling page");
+            youTubePage.scrollPage();
+            assertTrue(youTubePage.isOnYouTubeSite(),
+                    "Step 4 Failed: (Placeholder) Not on on YouTube page after scrolling the page");
+            logger.info("Step 4: Page scrolled successfully");
 
+            logger.info("Step 5: Clicking subscribe button");
+            youTubePage.clickSubscribeButton();
+            assertTrue(youTubePage.isSubscribeModalPresent(),
+                    "Step 5 Failed: Subscribe modal is not found");
+            logger.info("Step 5: Subscribe modal displayed successfully");
+            
+            logger.info("Test: Selenium Grid - PASSED");
 
-        youTubePage.clickAndHoldToFastForward();
-        assertTrue(youTubePage.isOnYouTubeSite(),
-                "Step 2 Failed: (Placeholder) Still on YouTube page");
-
-        youTubePage.scrollPage();
-        assertTrue(youTubePage.isOnYouTubeSite(),
-                "Step 4 Failed: Still on YouTube page");
-
-        youTubePage.clickSubscribeButton();
-        assertTrue(youTubePage.isSubscribeModalPresent(),
-                "Step 3 Failed: Subscribe modal is shown");
-
-
-
+        } catch (Exception e) {
+            logger.error("Test: Selenium Grid - FAILED with exception: " + e.getMessage(), e);
+            // Capture screenshot on failure
+            String screenshotPath = ScreenshotUtility.takeScreenshot(driver, "BananaSearchTest_FAILED");
+            if (screenshotPath != null) {
+                logger.error("Screenshot saved at: " + screenshotPath);
+            }
+            throw e;
+        }
     }
 
 
-    @AfterEach
-    public void tearDown() {
-        DriverManager.quitDriver();
-    }
 }
 

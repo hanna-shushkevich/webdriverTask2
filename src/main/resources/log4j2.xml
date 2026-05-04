@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration packages="org.apache.logging.log4j.core">
+    <Properties>
+        <Property name="log.dir">logs</Property>
+        <Property name="log.pattern">%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] [%t] %c{1} - %msg%n</Property>
+        <Property name="log.pattern.file">%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] [%thread] %c{1} - %msg%n</Property>
+    </Properties>
+
+    <Appenders>
+        <!-- Console Appender - prints to console with color encoding -->
+        <Console name="ConsoleAppender" target="SYSTEM_OUT">
+            <PatternLayout pattern="${log.pattern}" charset="UTF-8"/>
+        </Console>
+
+        <!-- Rolling File Appender - creates new file daily with timestamp -->
+        <RollingFile name="RollingFileAppender"
+                     fileName="${log.dir}/test-execution.log"
+                     filePattern="${log.dir}/test-execution-%d{yyyy-MM-dd}.%i.log">
+            <PatternLayout pattern="${log.pattern.file}" charset="UTF-8"/>
+            <Policies>
+                <!-- Rollover daily at midnight -->
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <!-- Also rollover if file size exceeds 10MB -->
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+
+        <!-- File Appender for test execution details -->
+        <RollingFile name="TestExecutionAppender"
+                     fileName="${log.dir}/test-details.log"
+                     filePattern="${log.dir}/test-details-%d{yyyy-MM-dd}.%i.log">
+            <PatternLayout pattern="${log.pattern.file}" charset="UTF-8"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+
+        <!-- File Appender for errors only -->
+        <RollingFile name="ErrorFileAppender"
+                     fileName="${log.dir}/errors.log"
+                     filePattern="${log.dir}/errors-%d{yyyy-MM-dd}.%i.log">
+            <PatternLayout pattern="${log.pattern.file}" charset="UTF-8"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <!-- Root Logger - applies to all loggers -->
+        <Root level="INFO">
+            <AppenderRef ref="ConsoleAppender"/>
+            <AppenderRef ref="RollingFileAppender"/>
+        </Root>
+
+        <!-- Logger for driver package -->
+        <Logger name="driver" level="DEBUG" additivity="false">
+            <AppenderRef ref="ConsoleAppender"/>
+            <AppenderRef ref="TestExecutionAppender"/>
+        </Logger>
+
+        <!-- Logger for pages package -->
+        <Logger name="pages" level="DEBUG" additivity="false">
+            <AppenderRef ref="ConsoleAppender"/>
+            <AppenderRef ref="TestExecutionAppender"/>
+        </Logger>
+
+        <!-- Logger for utils package -->
+        <Logger name="utils" level="DEBUG" additivity="false">
+            <AppenderRef ref="ConsoleAppender"/>
+            <AppenderRef ref="TestExecutionAppender"/>
+        </Logger>
+
+        <!-- Logger for test classes -->
+        <Logger name="test" level="DEBUG" additivity="false">
+            <AppenderRef ref="ConsoleAppender"/>
+            <AppenderRef ref="TestExecutionAppender"/>
+        </Logger>
+
+        <!-- Logger for Selenium (set to WARN to reduce noise) -->
+        <Logger name="org.openqa.selenium" level="WARN" additivity="false">
+            <AppenderRef ref="ConsoleAppender"/>
+            <AppenderRef ref="RollingFileAppender"/>
+        </Logger>
+
+        <!-- Logger for errors -->
+        <Logger name="ERROR_LOGGER" level="ERROR" additivity="false">
+            <AppenderRef ref="ConsoleAppender"/>
+            <AppenderRef ref="ErrorFileAppender"/>
+        </Logger>
+    </Loggers>
+</Configuration>
+

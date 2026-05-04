@@ -1,0 +1,189 @@
+name: Selenium WebDriver Test Execution
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to run tests against'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+          - dev
+          - staging
+          - prod
+      browser:
+        description: 'Browser to use for tests'
+        required: true
+        default: 'chrome'
+        type: choice
+        options:
+          - chrome
+          - firefox
+      testSuite:
+        description: 'Test suite to execute'
+        required: true
+        default: 'allTests'
+        type: choice
+        options:
+          - allTests
+          - youtube-suite
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        java-version: [ 21 ]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ matrix.java-version }}
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Log test configuration
+        run: |
+          echo "========================================="
+          echo "Test Configuration"
+          echo "========================================="
+          echo "Environment: ${{ github.event.inputs.environment || 'dev' }}"
+          echo "Browser: ${{ github.event.inputs.browser || 'chrome' }}"
+          echo "Test Suite: ${{ github.event.inputs.testSuite || 'allTests' }}"
+          echo "========================================="
+
+      - name: Start Selenium Grid (Docker)
+        run: |
+          docker run -d -p 4444:4444 --shm-size 2gb \
+            -e SE_NODE_MAX_SESSIONS=5 \
+            -e SE_SESSION_REQUEST_TIMEOUT=300 \
+            selenium/standalone-chrome:latest
+
+      - name: Wait for Grid to be ready
+        run: |
+          for i in {1..30}; do
+            if curl -s http://localhost:4444/wd/hub/status | grep -q "ready"; then
+              echo "Selenium Grid is ready!"
+              break
+            fi
+            echo "Waiting for Selenium Grid... ($i/30)"
+            sleep 2
+          done
+
+      - name: Run Tests
+        run: |
+          mvn clean test \
+            -Denv=${{ github.event.inputs.environment || 'dev' }} \
+            -Dbrowser=${{ github.event.inputs.browser || 'chrome' }} \
+            -Dexecution.mode=grid \
+            -Dexecution.grid.url=http://localhost:4444 \
+            -DthreadCount=1 \
+            -X
+        continue-on-error: true
+
+      - name: Generate Test Reports
+        if: always()
+        run: |
+          mvn surefire-report:report -DskipTests
+          mvn allure:report -DskipTests || true
+
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ github.event.inputs.environment || 'dev' }}-${{ github.event.inputs.browser || 'chrome' }}
+          path: |
+            target/surefire-reports/
+            target/test-reports/
+          retention-days: 30
+
+      - name: Upload Screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots-${{ github.event.inputs.environment || 'dev' }}-${{ github.event.inputs.browser || 'chrome' }}
+          path: screenshots/
+          if-no-files-found: ignore
+          retention-days: 30
+
+      - name: Upload Logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-logs-${{ github.event.inputs.environment || 'dev' }}-${{ github.event.inputs.browser || 'chrome' }}
+          path: logs/
+          if-no-files-found: ignore
+          retention-days: 30
+
+      - name: Upload Allure Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report-${{ github.event.inputs.environment || 'dev' }}-${{ github.event.inputs.browser || 'chrome' }}
+          path: target/site/allure-maven-plugin/
+          if-no-files-found: ignore
+          retention-days: 30
+
+      - name: Publish Test Results
+        if: always()
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        with:
+          files: target/surefire-reports/TEST-*.xml
+          check_name: Test Results - ${{ github.event.inputs.environment || 'dev' }} - ${{ github.event.inputs.browser || 'chrome' }}
+          comment_mode: always
+
+      - name: Comment PR with Test Summary
+        if: always() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            
+            let comment = '## Test Execution Summary\n\n';
+            comment += `**Environment:** ${{ github.event.inputs.environment || 'dev' }}\n`;
+            comment += `**Browser:** ${{ github.event.inputs.browser || 'chrome' }}\n`;
+            comment += `**Status:** ${{ job.status }}\n\n`;
+            
+            // Check for test results
+            const reportsDir = 'target/surefire-reports';
+            if (fs.existsSync(reportsDir)) {
+              const files = fs.readdirSync(reportsDir);
+              const testFiles = files.filter(f => f.startsWith('TEST-') && f.endsWith('.xml'));
+              if (testFiles.length > 0) {
+                comment += `**Test Reports:** ${testFiles.length} file(s) generated\n`;
+              }
+            }
+            
+            // Check for screenshots
+            if (fs.existsSync('screenshots')) {
+              const screenshots = fs.readdirSync('screenshots');
+              if (screenshots.length > 0) {
+                comment += `**Screenshots:** ${screenshots.length} captured (check artifacts)\n`;
+              }
+            }
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+        continue-on-error: true
+
+      - name: Stop Selenium Grid
+        if: always()
+        run: docker stop $(docker ps -aq) || true
+

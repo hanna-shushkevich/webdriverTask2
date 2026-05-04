@@ -1,0 +1,145 @@
+2026-05-04 22:14:34.195 [INFO ] [main] DriverManager - Creating WebDriver - Mode: grid, Browser: chrome
+2026-05-04 22:14:34.196 [DEBUG] [main] ConfigManager - Creating new ConfigManager instance
+2026-05-04 22:14:34.196 [INFO ] [main] ConfigManager - Initializing ConfigManager for environment: dev
+2026-05-04 22:14:34.196 [DEBUG] [main] ConfigManager - Loading configuration from file: config.dev.properties
+2026-05-04 22:14:34.196 [INFO ] [main] ConfigManager - Configuration loaded successfully from: config.dev.properties
+2026-05-04 22:14:34.196 [DEBUG] [main] ConfigManager - Total properties loaded: 12
+2026-05-04 22:14:34.196 [DEBUG] [main] ConfigManager - Getting property [grid.url] = http://localhost:4444/wd/hub
+2026-05-04 22:14:34.197 [DEBUG] [main] ConfigManager - Getting property [grid.platform] with default [MAC] = MAC
+2026-05-04 22:14:34.197 [DEBUG] [main] DriverManager - Connecting to Selenium Grid at: http://localhost:4444/wd/hub
+2026-05-04 22:14:35.299 [INFO ] [main] DriverManager - WebDriver initialized successfully
+2026-05-04 22:14:35.306 [DEBUG] [main] BasePage - GoogleSearchPage page object initialized
+2026-05-04 22:14:35.306 [DEBUG] [main] BasePage - YouTubePage page object initialized
+2026-05-04 22:14:35.306 [INFO ] [main] GoogleSearchPage - Opening Google Search page
+2026-05-04 22:14:35.306 [DEBUG] [main] ConfigManager - Getting property [google.url] = https://www.google.com/
+2026-05-04 22:14:35.307 [DEBUG] [main] GoogleSearchPage - Google URL from config: https://www.google.com/
+2026-05-04 22:14:35.307 [INFO ] [main] BasePage - Navigating to URL: https://www.google.com/
+2026-05-04 22:14:37.332 [DEBUG] [main] BasePage - Navigation complete
+2026-05-04 22:14:37.333 [DEBUG] [main] GoogleSearchPage - Attempting to accept cookies modal
+2026-05-04 22:14:37.893 [INFO ] [main] GoogleSearchPage - Cookies accepted successfully
+2026-05-04 22:14:37.894 [INFO ] [main] GoogleSearchPage - Google Search page opened successfully
+2026-05-04 22:14:37.909 [DEBUG] [main] BasePage - Current page title: Google
+2026-05-04 22:14:37.911 [DEBUG] [main] GoogleSearchPage - Is on Google Search page: true (Title: Google)
+2026-05-04 22:14:37.915 [INFO ] [main] GoogleSearchPage - Searching for: Banana Song
+2026-05-04 22:14:37.926 [DEBUG] [main] BasePage - Waiting for element to be visible
+2026-05-04 22:14:37.936 [DEBUG] [main] BasePage - Element is now visible
+2026-05-04 22:14:38.009 [DEBUG] [main] GoogleSearchPage - Search query entered: Banana Song
+2026-05-04 22:14:38.112 [DEBUG] [main] GoogleSearchPage - Search submitted
+2026-05-04 22:14:39.938 [INFO ] [main] GoogleSearchPage - Search results loaded successfully
+2026-05-04 22:14:39.943 [DEBUG] [main] BasePage - Current page title: Banana Song - Szukaj w Google
+2026-05-04 22:14:39.943 [DEBUG] [main] GoogleSearchPage - Is on Google Search page: true (Title: Banana Song - Szukaj w Google)
+2026-05-04 22:14:39.943 [INFO ] [main] GoogleSearchPage - Searching for YouTube link with text: Despicable Me 2
+2026-05-04 22:14:39.943 [DEBUG] [main] GoogleSearchPage - XPath locator: //a[contains(., 'Despicable Me 2') and contains(@href, 'youtube.com')]
+2026-05-04 22:14:39.971 [DEBUG] [main] GoogleSearchPage - YouTube link found: Despicable Me 2 | Minions Banana Song (2013) SNSD TTS
+YouTube · moviemaniacsDE
+Wyświetlenia: ponad 117,9 mln · 14 lat temu
+2026-05-04 22:14:45.488 [INFO ] [main] GoogleSearchPage - YouTube link clicked successfully
+2026-05-04 22:14:45.493 [DEBUG] [main] BasePage - Original window handle: 401D3C98B341474AA6BC0761723A70FF
+2026-05-04 22:14:45.498 [DEBUG] [main] YouTubePage - Checking if on YouTube site
+2026-05-04 22:14:45.499 [DEBUG] [main] YouTubePage - Attempting to accept cookies modal
+2026-05-04 22:14:46.262 [INFO ] [main] YouTubePage - YouTube cookies accepted successfully
+2026-05-04 22:14:46.263 [INFO ] [main] BasePage - Waiting for page title to contain: YouTube
+2026-05-04 22:14:51.129 [INFO ] [main] BasePage - Page title contains: YouTube
+2026-05-04 22:14:51.130 [INFO ] [main] YouTubePage - Is on YouTube site: true
+2026-05-04 22:14:51.251 [INFO ] [main] DriverManager - WebDriver quit successfully
+2026-05-04 22:14:51.261 [INFO ] [main] DriverManager - Creating WebDriver - Mode: grid, Browser: chrome
+2026-05-04 22:14:51.261 [DEBUG] [main] ConfigManager - Getting property [grid.url] = http://localhost:4444/wd/hub
+2026-05-04 22:14:51.261 [DEBUG] [main] ConfigManager - Getting property [grid.platform] with default [MAC] = MAC
+2026-05-04 22:14:51.261 [DEBUG] [main] DriverManager - Connecting to Selenium Grid at: http://localhost:4444/wd/hub
+2026-05-04 22:14:52.368 [INFO ] [main] DriverManager - WebDriver initialized successfully
+2026-05-04 22:14:52.369 [DEBUG] [main] ConfigManager - Getting property [login.email] = acc.for.test.1490@gmail.com
+2026-05-04 22:14:52.370 [DEBUG] [main] ConfigManager - Getting property [login.password] = abcd1234
+2026-05-04 22:14:52.373 [DEBUG] [main] BasePage - GoogleLoginPage page object initialized
+2026-05-04 22:14:52.373 [DEBUG] [main] GoogleLoginPage - GoogleLoginPage initialized
+2026-05-04 22:14:52.373 [INFO ] [main] GoogleLoginPage - Opening YouTube sign-in page
+2026-05-04 22:14:52.374 [INFO ] [main] BasePage - Navigating to URL: https://www.youtube.com/
+2026-05-04 22:15:12.998 [DEBUG] [main] BasePage - Navigation complete
+2026-05-04 22:15:12.998 [DEBUG] [main] GoogleLoginPage - Attempting to accept cookies modal
+2026-05-04 22:15:13.583 [INFO ] [main] GoogleLoginPage - Cookies accepted successfully
+2026-05-04 22:15:18.243 [DEBUG] [main] BasePage - Waiting for element to be visible
+2026-05-04 22:15:18.250 [DEBUG] [main] BasePage - Element is now visible
+2026-05-04 22:15:19.003 [INFO ] [main] GoogleLoginPage - Clicked Sign in button
+2026-05-04 22:15:19.010 [INFO ] [main] GoogleLoginPage - Entering email
+2026-05-04 22:15:19.099 [INFO ] [main] GoogleLoginPage - Email entered successfully
+2026-05-04 22:15:19.100 [INFO ] [main] GoogleLoginPage - Clicking Next button
+2026-05-04 22:15:19.172 [INFO ] [main] GoogleLoginPage - Next button clicked
+2026-05-04 22:15:19.173 [INFO ] [main] GoogleLoginPage - Entering password
+2026-05-04 22:15:29.545 [ERROR] [main] GoogleLoginPage - Failed to enter password: Expected condition failed: waiting for visibility of element located by By.name: Passwd (tried for 10 second(s) with 500 milliseconds interval)
+Build info: version: '4.15.0', revision: '1d14b5521b'
+System info: os.name: 'Mac OS X', os.arch: 'aarch64', os.version: '26.4.1', java.version: '21.0.7'
+Driver info: org.openqa.selenium.remote.RemoteWebDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 147.0.7727.138, chrome: {chromedriverVersion: 147.0.7727.117 (474cc805edd..., userDataDir: /var/folders/hc/nbph62s553j...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:57781}, goog:processID: 20149, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: mac, proxy: Proxy(), se:bidiEnabled: false, se:cdp: ws://192.168.100.136:4444/s..., se:cdpVersion: 147.0.7727.138, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 7544271d9d0e229045a49677ca5ce0b3
+2026-05-04 22:15:29.555 [DEBUG] [main] ScreenshotUtility - Screenshots directory ready: screenshots
+2026-05-04 22:15:29.624 [INFO ] [main] ScreenshotUtility - Screenshot captured successfully: /Users/Hanna_Shushkevich/Learn/auto/webdriverTask2/screenshots/YoutubeLoginTest_FAILED_2026-05-04_22-15-29-556_291.png
+2026-05-04 22:15:29.624 [INFO ] [main] ScreenshotUtility - Screenshot relative path: screenshots/YoutubeLoginTest_FAILED_2026-05-04_22-15-29-556_291.png
+2026-05-04 22:15:37.911 [INFO ] [main] DriverManager - WebDriver quit successfully
+2026-05-04 22:15:37.924 [INFO ] [main] DriverManager - Creating WebDriver - Mode: grid, Browser: chrome
+2026-05-04 22:15:37.924 [DEBUG] [main] ConfigManager - Getting property [grid.url] = http://localhost:4444/wd/hub
+2026-05-04 22:15:37.924 [DEBUG] [main] ConfigManager - Getting property [grid.platform] with default [MAC] = MAC
+2026-05-04 22:15:37.924 [DEBUG] [main] DriverManager - Connecting to Selenium Grid at: http://localhost:4444/wd/hub
+2026-05-04 22:15:39.004 [INFO ] [main] DriverManager - WebDriver initialized successfully
+2026-05-04 22:15:39.006 [DEBUG] [main] BasePage - YouTubePage page object initialized
+2026-05-04 22:15:39.006 [INFO ] [main] YouTubePage - Opening YouTube video
+2026-05-04 22:15:39.006 [DEBUG] [main] ConfigManager - Getting property [test.video.url] = https://www.youtube.com/watch?v=wCkerYMffMo
+2026-05-04 22:15:39.006 [DEBUG] [main] YouTubePage - Test video URL: https://www.youtube.com/watch?v=wCkerYMffMo
+2026-05-04 22:15:39.006 [INFO ] [main] BasePage - Navigating to URL: https://www.youtube.com/watch?v=wCkerYMffMo
+2026-05-04 22:15:42.583 [DEBUG] [main] BasePage - Navigation complete
+2026-05-04 22:15:42.584 [DEBUG] [main] YouTubePage - Attempting to accept cookies modal
+2026-05-04 22:15:43.315 [INFO ] [main] YouTubePage - YouTube cookies accepted successfully
+2026-05-04 22:15:43.315 [INFO ] [main] YouTubePage - YouTube video page loaded successfully
+2026-05-04 22:15:43.316 [INFO ] [main] YouTubePage - Pausing video
+2026-05-04 22:15:43.317 [DEBUG] [main] YouTubePage - Waiting for ad skip button
+2026-05-04 22:16:00.700 [DEBUG] [main] YouTubePage - Ad skip button not found: Expected condition failed: waiting for element to be clickable: By.className: ytp-skip-ad-button (tried for 10 second(s) with 500 milliseconds interval)
+Build info: version: '4.15.0', revision: '1d14b5521b'
+System info: os.name: 'Mac OS X', os.arch: 'aarch64', os.version: '26.4.1', java.version: '21.0.7'
+Driver info: org.openqa.selenium.remote.RemoteWebDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 147.0.7727.138, chrome: {chromedriverVersion: 147.0.7727.117 (474cc805edd..., userDataDir: /var/folders/hc/nbph62s553j...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:57841}, goog:processID: 20255, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: mac, proxy: Proxy(), se:bidiEnabled: false, se:cdp: ws://192.168.100.136:4444/s..., se:cdpVersion: 147.0.7727.138, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 5d85f8fcee1d0ebecefb88f952b446be
+2026-05-04 22:16:01.241 [DEBUG] [main] YouTubePage - Pause key sent
+2026-05-04 22:16:04.255 [DEBUG] [main] YouTubePage - Play key sent
+2026-05-04 22:16:04.256 [INFO ] [main] YouTubePage - Video pause/play action completed
+2026-05-04 22:16:04.256 [DEBUG] [main] YouTubePage - Checking if on YouTube site
+2026-05-04 22:16:04.256 [DEBUG] [main] YouTubePage - Attempting to accept cookies modal
+2026-05-04 22:16:14.682 [DEBUG] [main] YouTubePage - Cookies modal not present or already accepted: Expected condition failed: waiting for element to be clickable: By.xpath: //button[@aria-label='Accept all'] (tried for 10 second(s) with 500 milliseconds interval)
+Build info: version: '4.15.0', revision: '1d14b5521b'
+System info: os.name: 'Mac OS X', os.arch: 'aarch64', os.version: '26.4.1', java.version: '21.0.7'
+Driver info: org.openqa.selenium.remote.RemoteWebDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 147.0.7727.138, chrome: {chromedriverVersion: 147.0.7727.117 (474cc805edd..., userDataDir: /var/folders/hc/nbph62s553j...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:57841}, goog:processID: 20255, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: mac, proxy: Proxy(), se:bidiEnabled: false, se:cdp: ws://192.168.100.136:4444/s..., se:cdpVersion: 147.0.7727.138, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 5d85f8fcee1d0ebecefb88f952b446be
+2026-05-04 22:16:14.682 [INFO ] [main] BasePage - Waiting for page title to contain: YouTube
+2026-05-04 22:16:14.689 [INFO ] [main] BasePage - Page title contains: YouTube
+2026-05-04 22:16:14.689 [INFO ] [main] YouTubePage - Is on YouTube site: true
+2026-05-04 22:16:14.691 [INFO ] [main] YouTubePage - Fast-forwarding video
+2026-05-04 22:16:17.847 [INFO ] [main] YouTubePage - Fast-forward action completed
+2026-05-04 22:16:17.848 [DEBUG] [main] YouTubePage - Checking if on YouTube site
+2026-05-04 22:16:17.848 [DEBUG] [main] YouTubePage - Attempting to accept cookies modal
+2026-05-04 22:16:28.266 [DEBUG] [main] YouTubePage - Cookies modal not present or already accepted: Expected condition failed: waiting for element to be clickable: By.xpath: //button[@aria-label='Accept all'] (tried for 10 second(s) with 500 milliseconds interval)
+Build info: version: '4.15.0', revision: '1d14b5521b'
+System info: os.name: 'Mac OS X', os.arch: 'aarch64', os.version: '26.4.1', java.version: '21.0.7'
+Driver info: org.openqa.selenium.remote.RemoteWebDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 147.0.7727.138, chrome: {chromedriverVersion: 147.0.7727.117 (474cc805edd..., userDataDir: /var/folders/hc/nbph62s553j...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:57841}, goog:processID: 20255, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: mac, proxy: Proxy(), se:bidiEnabled: false, se:cdp: ws://192.168.100.136:4444/s..., se:cdpVersion: 147.0.7727.138, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 5d85f8fcee1d0ebecefb88f952b446be
+2026-05-04 22:16:28.267 [INFO ] [main] BasePage - Waiting for page title to contain: YouTube
+2026-05-04 22:16:28.273 [INFO ] [main] BasePage - Page title contains: YouTube
+2026-05-04 22:16:28.273 [INFO ] [main] YouTubePage - Is on YouTube site: true
+2026-05-04 22:16:28.274 [INFO ] [main] YouTubePage - Scrolling page
+2026-05-04 22:16:28.285 [DEBUG] [main] YouTubePage - Scrolled down by 500 pixels
+2026-05-04 22:16:28.285 [INFO ] [main] YouTubePage - Page scroll completed
+2026-05-04 22:16:28.285 [DEBUG] [main] YouTubePage - Checking if on YouTube site
+2026-05-04 22:16:28.285 [DEBUG] [main] YouTubePage - Attempting to accept cookies modal
+2026-05-04 22:16:38.693 [DEBUG] [main] YouTubePage - Cookies modal not present or already accepted: Expected condition failed: waiting for element to be clickable: By.xpath: //button[@aria-label='Accept all'] (tried for 10 second(s) with 500 milliseconds interval)
+Build info: version: '4.15.0', revision: '1d14b5521b'
+System info: os.name: 'Mac OS X', os.arch: 'aarch64', os.version: '26.4.1', java.version: '21.0.7'
+Driver info: org.openqa.selenium.remote.RemoteWebDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 147.0.7727.138, chrome: {chromedriverVersion: 147.0.7727.117 (474cc805edd..., userDataDir: /var/folders/hc/nbph62s553j...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:57841}, goog:processID: 20255, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: mac, proxy: Proxy(), se:bidiEnabled: false, se:cdp: ws://192.168.100.136:4444/s..., se:cdpVersion: 147.0.7727.138, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 5d85f8fcee1d0ebecefb88f952b446be
+2026-05-04 22:16:38.694 [INFO ] [main] BasePage - Waiting for page title to contain: YouTube
+2026-05-04 22:16:38.700 [INFO ] [main] BasePage - Page title contains: YouTube
+2026-05-04 22:16:38.701 [INFO ] [main] YouTubePage - Is on YouTube site: true
+2026-05-04 22:16:38.701 [INFO ] [main] YouTubePage - Clicking subscribe button
+2026-05-04 22:16:38.701 [DEBUG] [main] YouTubePage - Attempting standard click
+2026-05-04 22:16:39.255 [INFO ] [main] YouTubePage - Subscribe button clicked successfully via JavaScript
+2026-05-04 22:16:39.255 [DEBUG] [main] YouTubePage - Checking if subscribe modal is present
+2026-05-04 22:16:39.272 [INFO ] [main] YouTubePage - Subscribe modal is present
+2026-05-04 22:16:39.406 [INFO ] [main] DriverManager - WebDriver quit successfully
