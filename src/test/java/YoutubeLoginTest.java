@@ -32,25 +32,45 @@ public class YoutubeLoginTest extends CommonConditions {
 
             logger.info("Step 2: Initializing GoogleLoginPage");
             GoogleLoginPage loginPage = new GoogleLoginPage();
+            
+            // Get decorator from page object (auto-initialized in BasePage constructor)
+            var loginDecorator = loginPage.getDecorator();
 
             logger.info("Step 3: Opening YouTube and closing cookies modal");
-            loginPage.openYouTubeSignInPage();
-
-            logger.info("Step 4: Clicking Sign in button");
+            loginDecorator.executePageMethod(
+                    () -> loginPage.openYouTubeSignInPage(),
+                    "Opening YouTube Sign-In page"
+            );
 
             logger.info("Step 5-6: Entering email and clicking Next");
-            loginPage.enterEmail(testUser.getEmail());
-            loginPage.clickNextButton();
-
+            loginDecorator.executePageMethod(
+                    () -> loginPage.enterEmail(testUser.getEmail()),
+                    "Entering email: " + testUser.getEmail()
+            );
+            
+            loginDecorator.executePageMethod(
+                    () -> loginPage.clickNextButton(),
+                    "Clicking Next button after email entry"
+            );
 
             logger.info("Step 6-7: Entering password and clicking Next");
-            loginPage.enterPassword(testUser.getPassword());
-            loginPage.clickNextButton();
+            loginDecorator.executePageMethod(
+                    () -> loginPage.enterPassword(testUser.getPassword()),
+                    "Entering password"
+            );
+            
+            loginDecorator.executePageMethod(
+                    () -> loginPage.clickNextButton(),
+                    "Clicking Next button after password entry"
+            );
 
             logger.info("Step 8: Verifying wrong password error message");
-            boolean isErrorDisplayed = loginPage.isWrongPasswordErrorDisplayed();
+            boolean isErrorDisplayed = loginDecorator.executePageMethodWithReturn(
+                    () -> loginPage.isWrongPasswordErrorDisplayed(),
+                    "Checking for wrong password error message"
+            );
             
-            captureScreenshot("LoginError");
+            loginDecorator.captureStepScreenshot("LoginError");
             
             assertTrue(isErrorDisplayed, "Step 8 Failed: No error message displayed for wrong password");
             logger.info("Test passed: Wrong password error message is displayed");

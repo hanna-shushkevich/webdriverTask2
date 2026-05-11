@@ -26,30 +26,43 @@ public class GoogleSearchForSongTest extends CommonConditions {
             logger.info("Test: Search for Banana Song via Google - Starting");
             googleSearchPage = new GoogleSearchPage();
             youTubePage = new YouTubePage();
+            
+            // Pattern 1: Get decorator directly from page object
+            PageExecutionDecorator googleDecorator = googleSearchPage.getDecorator();
+            PageExecutionDecorator youtubeDecorator = youTubePage.getDecorator();
 
-            logger.info("Step 1: Opening Google Search");
-            googleSearchPage.openGoogle();
+            // Step 1: Opening Google Search with decorator
+            googleDecorator.executePageMethod(
+                    () -> googleSearchPage.openGoogle(),
+                    "Opening Google Search page"
+            );
             assertTrue(googleSearchPage.isOnGoogleSearchPage(),
                     "Step 1 Failed: Not navigated to Google Search page");
-            logger.info("Step 1: Successfully on Google Search page");
 
-            logger.info("Step 2: Searching for 'Banana Song'");
-            googleSearchPage.searchFor("Banana Song");
+            // Step 2: Searching for 'Banana Song' with decorator
+            googleDecorator.executePageMethod(
+                    () -> googleSearchPage.searchFor("Banana Song"),
+                    "Searching for 'Banana Song'"
+            );
             assertTrue(googleSearchPage.isOnGoogleSearchPage(),
                     "Step 2 Failed: Not on Google Search results page after searching");
-            logger.info("Step 2: Search completed successfully");
 
-            logger.info("Step 3: Clicking YouTube link with 'Despicable Me 2'");
-            boolean linkFound = googleSearchPage.clickYouTubeLinkWithText("Despicable Me 2");
-            assertTrue(linkFound,
-                    "Step 3 Failed: Couldn't find and click YouTube link with 'Despicable Me 2'");
-            logger.info("Step 3: YouTube link found and clicked");
+            // Step 3: Clicking YouTube link with decorator
+            googleDecorator.executePageMethod(
+                    () -> {
+                        boolean linkFound = googleSearchPage.clickYouTubeLinkWithText("Despicable Me 2");
+                        assertTrue(linkFound, "YouTube link not found");
+                    },
+                    "Clicking YouTube link with 'Despicable Me 2'"
+            );
 
-            logger.info("Step 4: Switching to YouTube window");
-            youTubePage.switchToNewWindow();
+            // Step 4: Switching to YouTube window with decorator
+            youtubeDecorator.executePageMethod(
+                    () -> youTubePage.switchToNewWindow(),
+                    "Switching to YouTube window"
+            );
             assertTrue(youTubePage.isOnYouTubeSite(),
                     "Step 4 Failed: Youtube site is not open");
-            logger.info("Step 4: Successfully switched to YouTube");
             
             logger.info("Test: Search for Banana Song via Google - PASSED");
 

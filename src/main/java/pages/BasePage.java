@@ -17,6 +17,7 @@ Abstract base class for all page objects.
 public abstract class BasePage {
     protected static final Logger logger = LogManager.getLogger(BasePage.class);
     protected WebDriverWait wait;
+    protected PageExecutionDecorator decorator;
     private static final int DEFAULT_TIMEOUT_SECONDS = 10;
 
 
@@ -25,7 +26,19 @@ public abstract class BasePage {
         this.wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(DEFAULT_TIMEOUT_SECONDS));
         // Initialize PageFactory fields annotated with @FindBy
         PageFactory.initElements(DriverManager.getDriver(), this);
+        // Initialize decorator for this page object
+        this.decorator = new PageExecutionDecorator(this, this.getClass().getSimpleName());
         logger.debug(this.getClass().getSimpleName() + " page object initialized");
+    }
+    
+    /**
+     * Get the PageExecutionDecorator for this page object.
+     * Allows transparent use of decorator pattern for method execution monitoring.
+     * 
+     * @return PageExecutionDecorator instance wrapping this page object
+     */
+    public PageExecutionDecorator getDecorator() {
+        return decorator;
     }
 
 

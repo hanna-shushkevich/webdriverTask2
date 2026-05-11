@@ -79,48 +79,56 @@ public class BananaSearchTest extends CommonConditions {
          try {
              logger.info("Test: Selenium Grid - Starting YouTube video interaction test");
              youTubePage = new YouTubePage();
+             
+             // Get decorator from page object (auto-initialized in BasePage constructor)
+             var youtubeDecorator = youTubePage.getDecorator();
 
             // Directly open YouTube video to avoid Google Search captcha
-            logger.info("Step 1: Opening YouTube video");
-            youTubePage.openYoutubeVideo();
-            logger.info("Step 1: Video page loaded successfully");
+            youtubeDecorator.executePageMethod(
+                    () -> youTubePage.openYoutubeVideo(),
+                    "Opening YouTube video"
+            );
 
-            logger.info("Step 2: Pausing video");
-            youTubePage.pauseVideo();
+            youtubeDecorator.executePageMethod(
+                    () -> youTubePage.pauseVideo(),
+                    "Pausing video"
+            );
             assertTrue(youTubePage.isOnYouTubeSite(),
                     "Step 2 Failed: (Placeholder) Not on on YouTube page after pausing video");
-            logger.info("Step 2: Video paused successfully");
 
-            logger.info("Step 3: Fast-forwarding video");
-            youTubePage.clickAndHoldToFastForward();
+            youtubeDecorator.executePageMethod(
+                    () -> youTubePage.clickAndHoldToFastForward(),
+                    "Fast-forwarding video"
+            );
             assertTrue(youTubePage.isOnYouTubeSite(),
                     "Step 3 Failed: (Placeholder) Not on on YouTube page after fast-forwarding video");
-            logger.info("Step 3: Video fast-forward completed");
 
-            logger.info("Step 4: Scrolling page");
-            youTubePage.scrollPage();
+            youtubeDecorator.executePageMethod(
+                    () -> youTubePage.scrollPage(),
+                    "Scrolling page"
+            );
             assertTrue(youTubePage.isOnYouTubeSite(),
                     "Step 4 Failed: (Placeholder) Not on on YouTube page after scrolling the page");
-            logger.info("Step 4: Page scrolled successfully");
 
-            logger.info("Step 5: Clicking subscribe button");
-            youTubePage.clickSubscribeButton();
+            youtubeDecorator.executePageMethod(
+                    () -> youTubePage.clickSubscribeButton(),
+                    "Clicking subscribe button"
+            );
             assertTrue(youTubePage.isSubscribeModalPresent(),
                     "Step 5 Failed: Subscribe modal is not found");
-            logger.info("Step 5: Subscribe modal displayed successfully");
             
             logger.info("Test: Selenium Grid - PASSED");
 
-        } catch (Exception e) {
-            logger.error("Test: Selenium Grid - FAILED with exception: " + e.getMessage(), e);
-            // Capture screenshot on failure
-            String screenshotPath = ScreenshotUtility.takeScreenshot(driver, "BananaSearchTest_FAILED");
-            if (screenshotPath != null) {
-                logger.error("Screenshot saved at: " + screenshotPath);
-            }
-            throw e;
-        }
-    }
+         } catch (Exception e) {
+             logger.error("Test: Selenium Grid - FAILED with exception: " + e.getMessage(), e);
+             // Capture screenshot on failure
+             String screenshotPath = ScreenshotUtility.takeScreenshot(driver, "BananaSearchTest_FAILED");
+             if (screenshotPath != null) {
+                 logger.error("Screenshot saved at: " + screenshotPath);
+             }
+             throw e;
+         }
+     }
 
 
 }

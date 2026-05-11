@@ -170,6 +170,25 @@ public class ConfigManager {
         return getProperty("login.password");
     }
 
+    // ============ YouTube Test Video Configuration ============
+
+    /**
+     * Get test video URL
+     *
+     * @return Video URL
+     */
+    public String getTestVideoUrl() {
+        return getProperty("test.video.url");
+    }
+
+    /**
+     * Get minimum view count threshold for test video
+     *
+     * @return View count
+     */
+    public long getTestVideoMinViews() {
+        return getLongProperty("test.video.min.views");
+    }
 
 
 }
