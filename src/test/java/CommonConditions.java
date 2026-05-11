@@ -5,42 +5,46 @@ import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
 import driver.DriverManager;
 import utils.ScreenshotUtility;
+import utils.TestExecutionDecorator;
 
 /**
-Base class for all tests
+ * CommonConditions: Base class for all tests.
+ * Responsibility: Test lifecycle management (setup, teardown).
+ * Uses TestExecutionDecorator (Decorator Pattern) for cross-cutting concerns.
  */
 public class CommonConditions {
 
-   //logs
     private static final Logger logger = LogManager.getLogger(CommonConditions.class);
 
-     protected WebDriver driver;
-     protected String currentTestName;
+    protected WebDriver driver;
+    protected String currentTestName;
+    protected TestExecutionDecorator testDecorator;
 
     @BeforeEach
     public void setUp() {
         currentTestName = extractTestName();
-        logger.info("========================================");
-        logger.info("Starting test: " + currentTestName);
-        logger.info("========================================");
+        // Decorate test execution with logging and metrics
+        testDecorator = new TestExecutionDecorator(currentTestName);
         
         driver = DriverManager.createRemoteDriver();
+        testDecorator.setDriver(driver);
         logger.info("WebDriver started");
     }
 
     @AfterEach
     public void stopBrowser() {
         try {
-
             logger.info("Tearing down test: " + currentTestName);
             
             if (driver != null) {
                 logger.info("Closing WebDriver");
                 DriverManager.quitDriver();
                 logger.info("WebDriver closed successfully");
+                testDecorator.logCompletion("PASSED");
             }
         } catch (Exception e) {
             logger.error("Error during quitting driver: " + e.getMessage(), e);
+            testDecorator.logCompletion("FAILED");
 
             if (driver != null) {
                 String screenshotPath = ScreenshotUtility.takeScreenshot(driver, currentTestName + "_CLEANUP_ERROR");
@@ -49,20 +53,22 @@ public class CommonConditions {
                 }
             }
         }
-        logger.info("Test completed: " + currentTestName);
-        logger.info("========================================\n");
     }
 
     /**
      * Capture screenshot on assertion failure
+     * Uses TestExecutionDecorator for consistent logging
      */
     protected void captureScreenshot(String stepName) {
-        if (driver != null) {
-            String screenshotPath = ScreenshotUtility.takeScreenshot(driver, currentTestName + "_" + stepName);
-            if (screenshotPath != null) {
-                logger.info("Screenshot captured for step: " + stepName + " at " + screenshotPath);
-            }
-        }
+        testDecorator.captureStepScreenshot(stepName);
+    }
+
+    /**
+     * Log test step with automatic formatting
+     * Uses TestExecutionDecorator for consistent logging
+     */
+    protected void logStep(int stepNumber, String description) {
+        testDecorator.logStep(stepNumber, description);
     }
 
     /**

@@ -1,5 +1,6 @@
 package pages;
 
+import driver.DriverManager;
 import model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -32,8 +33,8 @@ public class GoogleLoginPage extends BasePage {
     private WebElement passwordInput;
 
 
-    public GoogleLoginPage(WebDriver driver) {
-        super(driver);
+    public GoogleLoginPage() {
+        super();
         logger.debug("GoogleLoginPage initialized");
     }
 
@@ -47,7 +48,10 @@ public class GoogleLoginPage extends BasePage {
         
         // Click the Sign in button
         try {
-            WebElement signInButton = driver.findElement(By.xpath("//a[contains(@aria-label, 'Sign in')]"));
+            WebDriver driver = DriverManager.getDriver();
+            // Use ElementLocator to find sign-in link by aria-label
+            By signInLocator = ElementLocator.findButtonByAriaLabel("Sign in");
+            WebElement signInButton = driver.findElement(signInLocator);
             waitForElement(signInButton);
             signInButton.click();
             logger.info("Clicked Sign in button");

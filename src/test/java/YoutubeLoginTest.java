@@ -31,7 +31,7 @@ public class YoutubeLoginTest extends CommonConditions {
             logger.info("Test user loaded: " + testUser.getEmail());
 
             logger.info("Step 2: Initializing GoogleLoginPage");
-            GoogleLoginPage loginPage = new GoogleLoginPage(driver);
+            GoogleLoginPage loginPage = new GoogleLoginPage();
 
             logger.info("Step 3: Opening YouTube and closing cookies modal");
             loginPage.openYouTubeSignInPage();

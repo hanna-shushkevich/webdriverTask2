@@ -1,5 +1,6 @@
 package pages;
 
+import driver.DriverManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
@@ -35,8 +36,8 @@ public class YouTubePage extends BasePage {
     @FindBy(xpath = "//button[contains(@aria-label, 'Subscribe')]")
     private WebElement subscribeBtn;
 
-    public YouTubePage(WebDriver driver) {
-        super(driver);
+    public YouTubePage() {
+        super();
     }
 
 
@@ -140,6 +141,7 @@ public class YouTubePage extends BasePage {
             skipAdIfPresent();
             Thread.sleep(500);
 
+            WebDriver driver = DriverManager.getDriver();
             Actions actions = new Actions(driver);
             actions.sendKeys(Keys.SPACE).perform();
             logger.debug("Pause key sent");
@@ -158,6 +160,7 @@ public class YouTubePage extends BasePage {
     public void clickAndHoldToFastForward() {
         logger.info("Fast-forwarding video");
         try {
+            WebDriver driver = DriverManager.getDriver();
             WebElement videoContainer = driver.findElement(VIDEO_CONTAINER);
 
             Actions actions = new Actions(driver);
@@ -175,6 +178,7 @@ public class YouTubePage extends BasePage {
     public void scrollPage() {
         logger.info("Scrolling page");
         try {
+            WebDriver driver = DriverManager.getDriver();
             JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
             jsExecutor.executeScript("window.scrollBy(0, 500);");
             logger.debug("Scrolled down by 500 pixels");
@@ -189,20 +193,24 @@ public class YouTubePage extends BasePage {
         logger.info("Clicking subscribe button");
         try {
             logger.debug("Attempting standard click");
+            // Use ElementLocator to find subscribe button by aria-label
+            By subscribeButtonLocator = ElementLocator.findButtonByAriaLabel("Subscribe");
             wait.until(
-                ExpectedConditions.elementToBeClickable(SUBSCRIBE_BUTTON)
+                ExpectedConditions.elementToBeClickable(subscribeButtonLocator)
             );
             
+            WebDriver driver = DriverManager.getDriver();
             // Click via JavaScript with the element
             JavascriptExecutor js = (JavascriptExecutor) driver;
-            WebElement subscribeButton = driver.findElement(SUBSCRIBE_BUTTON);
+            WebElement subscribeButton = driver.findElement(subscribeButtonLocator);
             js.executeScript("arguments[0].click();", subscribeButton);
             Thread.sleep(500);
             logger.info("Subscribe button clicked successfully via JavaScript");
         } catch (Exception e) {
             logger.warn("Standard click failed, attempting fallback 1: " + e.getMessage());
-            // Fallback: Try clicking by aria-label using JS
+            // ...existing code...
             try {
+                WebDriver driver = DriverManager.getDriver();
                 JavascriptExecutor js = (JavascriptExecutor) driver;
                 js.executeScript(
                     "var btn = document.querySelector('button[aria-label*=\"Subscribe\"]'); " +
@@ -212,9 +220,11 @@ public class YouTubePage extends BasePage {
                 logger.info("Subscribe button clicked successfully via fallback 1");
             } catch (Exception ex) {
                 logger.warn("Fallback 1 failed, attempting fallback 2: " + ex.getMessage());
-                // Last resort: Try focus and Enter key
+                // ...existing code...
                 try {
-                    WebElement subscribeButton2 = driver.findElement(SUBSCRIBE_BUTTON);
+                    WebDriver driver = DriverManager.getDriver();
+                    By subscribeButtonLocator = ElementLocator.findButtonByAriaLabel("Subscribe");
+                    WebElement subscribeButton2 = driver.findElement(subscribeButtonLocator);
                     JavascriptExecutor js2 = (JavascriptExecutor) driver;
                     js2.executeScript("arguments[0].focus();", subscribeButton2);
                     subscribeButton2.sendKeys(Keys.ENTER);

@@ -27,11 +27,7 @@ public class ConfigManager {
         loadProperties();
     }
 
-    /**
-     * Get singleton instance of ConfigManager
-     *
-     * @return ConfigManager instance
-     */
+
     public static synchronized ConfigManager getInstance() {
         if (instance == null) {
             logger.debug("Creating new ConfigManager instance");
@@ -106,8 +102,6 @@ public class ConfigManager {
         }
     }
 
-    // ============ Selenium Grid Configuration ============
-
     /**
      * Get Selenium Grid URL
      *
@@ -126,16 +120,6 @@ public class ConfigManager {
         return getProperty("grid.platform", "MAC");
     }
 
-    // ============ Timeout Configuration ============
-
-    /**
-     * Get default timeout in seconds
-     *
-     * @return Timeout value in seconds
-     */
-    public int getTimeoutSeconds() {
-        return getIntProperty("timeout.seconds");
-    }
 
     // ============ Google Search Configuration ============
 
@@ -184,55 +168,6 @@ public class ConfigManager {
      */
     public String getLoginPassword() {
         return getProperty("login.password");
-    }
-
-    // ============ YouTube Test Video Configuration ============
-
-    /**
-     * Get test video ID
-     *
-     * @return Video ID
-     */
-    public String getTestVideoId() {
-        return getProperty("test.video.id");
-    }
-
-    /**
-     * Get test video URL
-     *
-     * @return Video URL
-     */
-    public String getTestVideoUrl() {
-        return getProperty("test.video.url");
-    }
-
-    /**
-     * Get test video title
-     *
-     * @return Video title
-     */
-    public String getTestVideoTitle() {
-        return getProperty("test.video.title");
-    }
-
-    /**
-     * Get minimum view count threshold for test video
-     *
-     * @return View count
-     */
-    public long getTestVideoMinViews() {
-        return getLongProperty("test.video.min.views");
-    }
-
-    // ============ Utility Methods ============
-
-    /**
-     * Get current environment
-     *
-     * @return Environment name
-     */
-    public String getEnvironment() {
-        return environment;
     }
 
 

@@ -1,5 +1,6 @@
 package pages;
 
+import driver.DriverManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
@@ -25,8 +26,8 @@ public class GoogleSearchPage extends BasePage {
     @FindBy(id = "L2AGLb")
     private WebElement acceptCookiesButton;
 
-    public GoogleSearchPage(WebDriver driver) {
-        super(driver);
+    public GoogleSearchPage() {
+        super();
     }
 
 
@@ -59,7 +60,7 @@ public class GoogleSearchPage extends BasePage {
 
     public void searchFor(String searchQuery) {
         logger.info("Searching for: " + searchQuery);
-        WebElement searchField = waitForElement(driver.findElement(SEARCH_INPUT));
+        WebElement searchField = waitForElement(DriverManager.getDriver().findElement(SEARCH_INPUT));
         searchField.clear();
         searchField.sendKeys(searchQuery);
         logger.debug("Search query entered: " + searchQuery);
@@ -73,12 +74,14 @@ public class GoogleSearchPage extends BasePage {
 
     public boolean clickYouTubeLinkWithText(String linkText) {
         logger.info("Searching for YouTube link with text: " + linkText);
-        String xpathLocator = String.format("//a[contains(., '%s') and contains(@href, 'youtube.com')]", linkText);
-        logger.debug("XPath locator: " + xpathLocator);
         
         try {
+            // Use ElementLocator to generate XPath dynamically
+            By xpathLocator = ElementLocator.findLinkByTextAndHref(linkText, "youtube.com");
+            logger.debug("XPath locator generated via ElementLocator");
+            
             WebElement youtubeLink = wait.until(
-                ExpectedConditions.elementToBeClickable(By.xpath(xpathLocator))
+                ExpectedConditions.elementToBeClickable(xpathLocator)
             );
             logger.debug("YouTube link found: " + youtubeLink.getText());
             youtubeLink.click();

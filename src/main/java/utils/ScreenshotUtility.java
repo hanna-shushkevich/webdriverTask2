@@ -13,14 +13,7 @@ import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * ScreenshotUtility: Handles screenshot capture for test failure diagnostics.
- * Creates timestamped screenshot files in a centralized directory.
- *
- * Usage:
- *  ScreenshotUtility.takeScreenshot(driver, "LoginFailed");
- *  Returns path to saved screenshot
- */
+
 public class ScreenshotUtility {
     private static final Logger logger = LogManager.getLogger(ScreenshotUtility.class);
     private static final String SCREENSHOTS_DIR = "screenshots";
@@ -35,13 +28,7 @@ public class ScreenshotUtility {
         }
     }
 
-    /**
-     * Take screenshot with automatic timestamp and optional test name
-     *
-     * @param driver   WebDriver instance
-     * @param testName Optional test name for better identification
-     * @return Path to saved screenshot file, or null if capture failed
-     */
+
     public static String takeScreenshot(WebDriver driver, String testName) {
         if (driver == null) {
             logger.warn("Cannot take screenshot: WebDriver is null");
@@ -81,23 +68,6 @@ public class ScreenshotUtility {
         }
     }
 
-    /**
-     * Take screenshot without test name
-     *
-     * @param driver WebDriver instance
-     * @return Path to saved screenshot file
-     */
-    public static String takeScreenshot(WebDriver driver) {
-        return takeScreenshot(driver, null);
-    }
 
-    /**
-     * Get absolute path of screenshots directory
-     *
-     * @return Absolute path to screenshots directory
-     */
-    public static String getScreenshotsDirectory() {
-        return new File(SCREENSHOTS_DIR).getAbsolutePath();
-    }
 }
 

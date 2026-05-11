@@ -2,25 +2,23 @@ package driver;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import utils.ConfigManager;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
-
+/**
+ * DriverManager: Implements Singleton pattern for WebDriver lifecycle management.
+ * Responsibility: Manage single WebDriver instance (creation, retrieval, cleanup).
+ * Uses DriverFactoryProvider to obtain appropriate factory (Factory Method pattern).
+ */
 public class DriverManager {
     private static final Logger logger = LogManager.getLogger(DriverManager.class);
     private static WebDriver driver;
 
-
+    /**
+     * Create or return existing WebDriver singleton
+     * Uses Factory Method pattern via DriverFactoryProvider
+     * 
+     * @return WebDriver singleton instance
+     */
     public static WebDriver createRemoteDriver() {
         if (driver != null) {
             logger.debug("WebDriver already initialized, returning existing instance");
@@ -28,17 +26,18 @@ public class DriverManager {
         }
 
         String executionMode = System.getProperty("execution.mode", "grid");
-        String browser = System.getProperty("browser", "chrome").toLowerCase();
+        String browser = System.getProperty("browser", "chrome");
 
         logger.info("Creating WebDriver - Mode: " + executionMode + ", Browser: " + browser);
 
         try {
-            if ("local".equalsIgnoreCase(executionMode)) {
-                driver = createLocalDriver(browser);
-            } else {
-                driver = createGridDriver(browser);
-            }
+            // Use Factory Method pattern to get appropriate factory
+            DriverFactory factory = DriverFactoryProvider.getFactory(executionMode, browser);
+            driver = factory.createDriver();
+            
+            // Maximize window
             driver.manage().window().maximize();
+            
             logger.info("WebDriver initialized successfully");
             return driver;
         } catch (Exception e) {
@@ -47,35 +46,22 @@ public class DriverManager {
         }
     }
 
-    private static WebDriver createLocalDriver(String browser) {
-        logger.debug("Creating local " + browser + " driver");
-        switch (browser) {
-            case "firefox":
-                return new FirefoxDriver(new FirefoxOptions());
-            case "chrome":
-            default:
-                return new ChromeDriver(new ChromeOptions());
+    /**
+     * Get current WebDriver instance (Singleton getter)
+     * 
+     * @return WebDriver singleton instance
+     */
+    public static WebDriver getDriver() {
+        if (driver == null) {
+            logger.warn("WebDriver not initialized. Call createRemoteDriver() first.");
+            return createRemoteDriver();
         }
+        return driver;
     }
 
-    private static WebDriver createGridDriver(String browser) {
-        ConfigManager config = ConfigManager.getInstance();
-        String gridUrl = config.getGridUrl();
-        String platform = config.getGridPlatform();
-
-        logger.debug("Connecting to Selenium Grid at: " + gridUrl);
-
-        try {
-            DesiredCapabilities capabilities = new DesiredCapabilities();
-            capabilities.setBrowserName(browser.equals("firefox") ? "firefox" : "chrome");
-            capabilities.setPlatform(Platform.valueOf(platform.toUpperCase()));
-            return new RemoteWebDriver(new URL(gridUrl), capabilities);
-        } catch (MalformedURLException e) {
-            logger.error("Invalid Grid URL: " + gridUrl, e);
-            throw new RuntimeException("Invalid Grid URL", e);
-        }
-    }
-
+    /**
+     * Quit and cleanup WebDriver singleton
+     */
     public static void quitDriver() {
         if (driver != null) {
             try {
@@ -88,6 +74,5 @@ public class DriverManager {
             }
         }
     }
-
 
 }

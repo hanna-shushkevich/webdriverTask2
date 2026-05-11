@@ -73,12 +73,12 @@ public class BananaSearchTest extends CommonConditions {
      •	Scroll the page
      •	Click subscribe button
      */
-    @Test
-    @DisplayName("Selenium Grid")
-    public void seleniumGridTest()  {
-        try {
-            logger.info("Test: Selenium Grid - Starting YouTube video interaction test");
-            youTubePage = new YouTubePage(driver);
+     @Test
+     @DisplayName("Selenium Grid")
+     public void seleniumGridTest()  {
+         try {
+             logger.info("Test: Selenium Grid - Starting YouTube video interaction test");
+             youTubePage = new YouTubePage();
 
             // Directly open YouTube video to avoid Google Search captcha
             logger.info("Step 1: Opening YouTube video");

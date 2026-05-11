@@ -24,8 +24,8 @@ public class GoogleSearchForSongTest extends CommonConditions {
     public void testBananaSearchYouTubeScenario() {
         try {
             logger.info("Test: Search for Banana Song via Google - Starting");
-            googleSearchPage = new GoogleSearchPage(driver);
-            youTubePage = new YouTubePage(driver);
+            googleSearchPage = new GoogleSearchPage();
+            youTubePage = new YouTubePage();
 
             logger.info("Step 1: Opening Google Search");
             googleSearchPage.openGoogle();
