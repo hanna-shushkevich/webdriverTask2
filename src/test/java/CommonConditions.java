@@ -5,12 +5,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
 import driver.DriverManager;
 import utils.ScreenshotUtility;
-import utils.TestExecutionDecorator;
+import utils.TestExecutionHelper;
 
 /**
  * CommonConditions: Base class for all tests.
  * Responsibility: Test lifecycle management (setup, teardown).
- * Uses TestExecutionDecorator (Decorator Pattern) for cross-cutting concerns.
+ * Uses TestExecutionHelper for cross-cutting concerns (logging, metrics, screenshots).
  */
 public class CommonConditions {
 
@@ -18,13 +18,13 @@ public class CommonConditions {
 
     protected WebDriver driver;
     protected String currentTestName;
-    protected TestExecutionDecorator testDecorator;
+    protected TestExecutionHelper testDecorator;
 
     @BeforeEach
     public void setUp() {
         currentTestName = extractTestName();
-        // Decorate test execution with logging and metrics
-        testDecorator = new TestExecutionDecorator(currentTestName);
+        // Initialize helper for test execution tracking with logging and metrics
+        testDecorator = new TestExecutionHelper(currentTestName);
         
         driver = DriverManager.createRemoteDriver();
         testDecorator.setDriver(driver);
@@ -57,7 +57,7 @@ public class CommonConditions {
 
     /**
      * Capture screenshot on assertion failure
-     * Uses TestExecutionDecorator for consistent logging
+     * Uses TestExecutionHelper for consistent logging
      */
     protected void captureScreenshot(String stepName) {
         testDecorator.captureStepScreenshot(stepName);
@@ -65,7 +65,7 @@ public class CommonConditions {
 
     /**
      * Log test step with automatic formatting
-     * Uses TestExecutionDecorator for consistent logging
+     * Uses TestExecutionHelper for consistent logging
      */
     protected void logStep(int stepNumber, String description) {
         testDecorator.logStep(stepNumber, description);

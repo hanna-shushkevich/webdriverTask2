@@ -1,5 +1,6 @@
 import pages.GoogleSearchPage;
 import pages.YouTubePage;
+import pages.PageExecutionDecorator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeEach;
@@ -75,7 +76,7 @@ public class BananaSearchTest extends CommonConditions {
      */
      @Test
      @DisplayName("Selenium Grid")
-     public void seleniumGridTest()  {
+     public void seleniumGridTest() throws Exception {
          try {
              logger.info("Test: Selenium Grid - Starting YouTube video interaction test");
              youTubePage = new YouTubePage();

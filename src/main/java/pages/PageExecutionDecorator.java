@@ -148,34 +148,8 @@ public class PageExecutionDecorator {
         logger.error("───────────────────────────────────────────────────────────\n");
     }
 
-    /**
-     * Returns the underlying page object for direct access if needed.
-     * 
-     * @return The decorated BasePage object
-     */
-    public BasePage getPage() {
-        return page;
-    }
-
-    /**
-     * Get the current step counter value.
-     * Useful for tracking test progress and debugging.
-     * 
-     * @return Number of steps executed so far
-     */
-    public int getStepCounter() {
-        return stepCounter;
-    }
 
 
-    /**
-     * Reset the step counter for a new test scenario or test phase.
-     * Useful when running multiple scenarios within the same test method.
-     */
-    public void resetStepCounter() {
-        this.stepCounter = 0;
-        logger.debug("Step counter reset for new test scenario");
-    }
 
 
     /**
