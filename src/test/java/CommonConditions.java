@@ -2,15 +2,17 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInfo;
 import org.openqa.selenium.WebDriver;
 import driver.DriverManager;
 import utils.ScreenshotUtility;
-import utils.TestExecutionHelper;
+import utils.TestExecutionDecorator;
 
 /**
  * CommonConditions: Base class for all tests.
  * Responsibility: Test lifecycle management (setup, teardown).
- * Uses TestExecutionHelper for cross-cutting concerns (logging, metrics, screenshots).
+ * Uses TestExecutionDecorator for cross-cutting concerns (logging, metrics, screenshots).
+ * Decorator pattern: wraps test lifecycle with additional behaviors.
  */
 public class CommonConditions {
 
@@ -18,14 +20,14 @@ public class CommonConditions {
 
     protected WebDriver driver;
     protected String currentTestName;
-    protected TestExecutionHelper testDecorator;
+    protected TestExecutionDecorator testDecorator;
 
     @BeforeEach
-    public void setUp() {
-        currentTestName = extractTestName();
-        // Initialize helper for test execution tracking with logging and metrics
-        testDecorator = new TestExecutionHelper(currentTestName);
-        
+    public void setUp(TestInfo testInfo) {
+        currentTestName = testInfo.getDisplayName();
+        // Initialize decorator for test execution tracking with logging and metrics
+        testDecorator = new TestExecutionDecorator(currentTestName);
+
         driver = DriverManager.createRemoteDriver();
         testDecorator.setDriver(driver);
         logger.info("WebDriver started");
@@ -35,7 +37,7 @@ public class CommonConditions {
     public void stopBrowser() {
         try {
             logger.info("Tearing down test: " + currentTestName);
-            
+
             if (driver != null) {
                 logger.info("Closing WebDriver");
                 DriverManager.quitDriver();
@@ -56,33 +58,23 @@ public class CommonConditions {
     }
 
     /**
-     * Capture screenshot on assertion failure
-     * Uses TestExecutionHelper for consistent logging
+     * Capture screenshot on assertion failure.
+     * Uses TestExecutionDecorator for consistent logging.
      */
     protected void captureScreenshot(String stepName) {
         testDecorator.captureStepScreenshot(stepName);
     }
 
     /**
-     * Log test step with automatic formatting
-     * Uses TestExecutionHelper for consistent logging
+     * Log test step with automatic formatting.
+     * Uses TestExecutionDecorator for consistent logging.
      */
     protected void logStep(int stepNumber, String description) {
         testDecorator.logStep(stepNumber, description);
     }
+    /// Why I removed method  private String extractTestName() ?
+    /// because it did not work for 2 reasons:
+    /// 1. When using it in setUp() our test method was not in stack jet as setUp() is called before
+    /// 2. We tried to find method beginning with test... but seleniumGridTest() was named not properly
 
-    /**
-     * Extract current test name from stack trace
-     *
-     * @return Current test method name
-     */
-    private String extractTestName() {
-        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-        for (StackTraceElement element : stackTrace) {
-            if (element.getMethodName().startsWith("test")) {
-                return element.getMethodName();
-            }
-        }
-        return "UnknownTest";
-    }
 }

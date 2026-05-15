@@ -13,14 +13,15 @@ public class TestExecutionDecorator {
     private final String testName;
     private final long startTime;
     private WebDriver driver;
+    private int stepCount = 0;
 
 
     public TestExecutionDecorator(String testName) {
         this.testName = testName;
         this.startTime = System.currentTimeMillis();
-        logger.info("========================================");
-        logger.info("Starting test: " + testName);
-        logger.info("========================================");
+        logger.info("==============================================");
+        logger.info("===  Starting test: " + testName);
+        logger.info("==============================================");
     }
 
 
@@ -30,6 +31,7 @@ public class TestExecutionDecorator {
 
 
     public void logStep(int stepNumber, String description) {
+        stepCount++;
         logger.info("Step " + stepNumber + ": " + description);
     }
 
@@ -43,14 +45,12 @@ public class TestExecutionDecorator {
         }
     }
 
-
+    /// Decorator added performance metrics to test run:
     public void logCompletion(String status) {
         long executionTime = System.currentTimeMillis() - startTime;
-        logger.info("Test: " + testName + " - " + status);
-        logger.info("Execution time: " + executionTime + "ms");
-        logger.info("========================================\n");
+        logger.info("=== Test: " + testName + " - " + status);
+        logger.info("=== Total steps executed: " + stepCount);
+        logger.info("=== Execution time: " + executionTime + "ms");
+        logger.info("===========================================\n");
     }
-
-
 }
-
