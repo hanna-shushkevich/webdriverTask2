@@ -4,7 +4,7 @@ import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pages.GoogleLoginPage;
-import pages.PageExecutionDecorator;
+import pages.PageExecutionDecorator; /// unused import
 import utils.ConfigManager;
 import utils.ScreenshotUtility;
 
@@ -20,7 +20,7 @@ public class YoutubeLoginTest extends CommonConditions {
 
     @Test
     @DisplayName("User cannot login with wrong password")
-    public void testUserCannotLoginWithWrongPassword() {
+    public void testUserCannotLoginWithWrongPassword() throws Exception {
         logger.info("Test: User cannot login with wrong password - Starting");
 
         try {
@@ -86,7 +86,4 @@ public class YoutubeLoginTest extends CommonConditions {
             throw e;
         }
     }
-
-
 }
-

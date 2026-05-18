@@ -66,30 +66,35 @@ public class BananaSearchTest extends CommonConditions {
 
     }
 */
+
     /**
      * Scenario:
-     •	Open YouTube video by link
-     •	Pause-resume the video
-     •	Fast-forward the video
-     •	Scroll the page
-     •	Click subscribe button
+     * •	Open YouTube video by link
+     * •	Pause-resume the video
+     * •	Fast-forward the video
+     * •	Scroll the page
+     * •	Click subscribe button
      */
-     @Test
-     @DisplayName("Selenium Grid")
-     public void seleniumGridTest() throws Exception {
-         try {
-             logger.info("Test: Selenium Grid - Starting YouTube video interaction test");
-             youTubePage = new YouTubePage();
-             
-             // Get decorator from page object (auto-initialized in BasePage constructor)
-             var youtubeDecorator = youTubePage.getDecorator();
+    @Test
+    @DisplayName("Selenium Grid")
+    public void seleniumGridTest() throws Exception {
+        try {
+            logger.info("Test: Selenium Grid - Starting YouTube video interaction test");
+            youTubePage = new YouTubePage();
 
+            // Get decorator from page object (auto-initialized in BasePage constructor)
+            var youtubeDecorator = youTubePage.getDecorator();
+
+            /// logStep() was added to use new TestDecorator logic
+            logStep(1, "Directly open YouTube video to avoid Google Search captcha");
             // Directly open YouTube video to avoid Google Search captcha
             youtubeDecorator.executePageMethod(
                     () -> youTubePage.openYoutubeVideo(),
                     "Opening YouTube video"
             );
 
+
+            logStep(2, "Pausing video");
             youtubeDecorator.executePageMethod(
                     () -> youTubePage.pauseVideo(),
                     "Pausing video"
@@ -97,6 +102,7 @@ public class BananaSearchTest extends CommonConditions {
             assertTrue(youTubePage.isOnYouTubeSite(),
                     "Step 2 Failed: (Placeholder) Not on on YouTube page after pausing video");
 
+            logStep(3, "Fast-forwarding video");
             youtubeDecorator.executePageMethod(
                     () -> youTubePage.clickAndHoldToFastForward(),
                     "Fast-forwarding video"
@@ -104,6 +110,7 @@ public class BananaSearchTest extends CommonConditions {
             assertTrue(youTubePage.isOnYouTubeSite(),
                     "Step 3 Failed: (Placeholder) Not on on YouTube page after fast-forwarding video");
 
+            logStep(4, "Scrolling page");
             youtubeDecorator.executePageMethod(
                     () -> youTubePage.scrollPage(),
                     "Scrolling page"
@@ -111,26 +118,27 @@ public class BananaSearchTest extends CommonConditions {
             assertTrue(youTubePage.isOnYouTubeSite(),
                     "Step 4 Failed: (Placeholder) Not on on YouTube page after scrolling the page");
 
+            logStep(5, "Clicking subscribe button");
             youtubeDecorator.executePageMethod(
                     () -> youTubePage.clickSubscribeButton(),
                     "Clicking subscribe button"
             );
             assertTrue(youTubePage.isSubscribeModalPresent(),
                     "Step 5 Failed: Subscribe modal is not found");
-            
+
             logger.info("Test: Selenium Grid - PASSED");
 
-         } catch (Exception e) {
-             logger.error("Test: Selenium Grid - FAILED with exception: " + e.getMessage(), e);
-             // Capture screenshot on failure
-             String screenshotPath = ScreenshotUtility.takeScreenshot(driver, "BananaSearchTest_FAILED");
-             if (screenshotPath != null) {
-                 logger.error("Screenshot saved at: " + screenshotPath);
-             }
-             throw e;
-         }
-     }
-
-
-}
-
+        } catch (Exception e) {
+            logger.error("Test: Selenium Grid - FAILED with exception: " + e.getMessage(), e);
+            // Capture screenshot on failure
+            String screenshotPath = ScreenshotUtility.takeScreenshot(driver, "BananaSearchTest_FAILED");
+            if (screenshotPath != null) {
+                logger.error("Screenshot saved at: " + screenshotPath);
+            }
+            throw e;
+        }
+    }
+} /// <-- this one
+/// many code-line were moved to correspond code style.
+/// How it was done? -- just remove the last class } bracket in put it back
+/// and your code will be auto-formated

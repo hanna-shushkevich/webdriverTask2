@@ -3,7 +3,7 @@ package pages;
 import driver.DriverManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriver; // unused import
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -23,6 +23,11 @@ public abstract class BasePage {
 
 
     public BasePage() {
+
+        /// this code is for demonstration of possibility to init one more Singleton instance:
+        /// uncomment line below to explore how private DriverManager init() affects
+//        DriverManager dm = new DriverManager();
+
         this.wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(DEFAULT_TIMEOUT_SECONDS));
         // Initialize PageFactory fields annotated with @FindBy
         PageFactory.initElements(DriverManager.getDriver(), this);

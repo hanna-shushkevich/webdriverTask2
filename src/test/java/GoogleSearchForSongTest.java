@@ -22,7 +22,7 @@ public class GoogleSearchForSongTest extends CommonConditions {
 
     @Test
     @DisplayName("Search for Banana Song via Google")
-    public void testBananaSearchYouTubeScenario() {
+    public void testBananaSearchYouTubeScenario() throws Exception {
         try {
             logger.info("Test: Search for Banana Song via Google - Starting");
             googleSearchPage = new GoogleSearchPage();

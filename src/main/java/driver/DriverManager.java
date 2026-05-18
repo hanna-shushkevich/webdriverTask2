@@ -13,10 +13,14 @@ public class DriverManager {
     private static final Logger logger = LogManager.getLogger(DriverManager.class);
     private static WebDriver driver;
 
+    /// Private constructor prevents instantiation from outside
+    /// Singleton: prevent instantiation
+//    private DriverManager() { }
+
     /**
      * Create or return existing WebDriver singleton
      * Uses Factory Method pattern via DriverFactoryProvider
-     * 
+     *
      * @return WebDriver singleton instance
      */
     public static WebDriver createRemoteDriver() {
@@ -34,10 +38,10 @@ public class DriverManager {
             // Use Factory Method pattern to get appropriate factory
             DriverFactory factory = DriverFactoryProvider.getFactory(executionMode, browser);
             driver = factory.createDriver();
-            
+
             // Maximize window
             driver.manage().window().maximize();
-            
+
             logger.info("WebDriver initialized successfully");
             return driver;
         } catch (Exception e) {
@@ -48,7 +52,7 @@ public class DriverManager {
 
     /**
      * Get current WebDriver instance (Singleton getter)
-     * 
+     *
      * @return WebDriver singleton instance
      */
     public static WebDriver getDriver() {
