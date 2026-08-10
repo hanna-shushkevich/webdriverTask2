@@ -19,6 +19,12 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j2-impl</artifactId>
+            <version>${log4j.version}</version>
+            <scope>test</scope>
+        </dependency>
         <!-- Selenium WebDriver -->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
@@ -69,6 +75,27 @@
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
             <version>${log4j.version}</version>
+        </dependency>
+
+        <!-- ReportPortal JUnit5 agent -->
+        <dependency>
+            <groupId>com.epam.reportportal</groupId>
+            <artifactId>agent-java-junit5</artifactId>
+            <version>5.4.0</version>
+            <scope>test</scope>
+        </dependency>
+        <!--
+            Pin client-java explicitly: agent-java-junit5:5.4.0 transitively pulls client-java:5.3.14,
+            which drops logs/attachments (including screenshots) that haven't finished uploading
+            before the JVM exits. Fixed upstream in client-java 5.3.15/5.3.16
+            ("Ensure all logs are sent before JVM exit"). Without this override, logs and
+            screenshots emitted via ReportPortal.emitLog(...) are silently lost.
+        -->
+        <dependency>
+            <groupId>com.epam.reportportal</groupId>
+            <artifactId>client-java</artifactId>
+            <version>5.3.17</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

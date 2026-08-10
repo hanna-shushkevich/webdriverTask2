@@ -1,17 +1,16 @@
+import com.epam.reportportal.junit5.ReportPortalExtension;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.WebDriver;
 import driver.DriverManager;
+import utils.ReportPortalScreenshotExtension;
 import utils.ScreenshotUtility;
 import utils.TestExecutionHelper;
 
-/**
- * CommonConditions: Base class for all tests.
- * Responsibility: Test lifecycle management (setup, teardown).
- * Uses TestExecutionHelper for cross-cutting concerns (logging, metrics, screenshots).
- */
+@ExtendWith({ReportPortalExtension.class, ReportPortalScreenshotExtension.class})
 public class CommonConditions {
 
     private static final Logger logger = LogManager.getLogger(CommonConditions.class);

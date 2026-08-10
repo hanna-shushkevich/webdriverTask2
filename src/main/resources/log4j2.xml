@@ -88,6 +88,13 @@
             <AppenderRef ref="RollingFileAppender"/>
         </Logger>
 
+        <!-- Logger for ReportPortal client diagnostics (WARN+ only; the client silently
+             drops logs/attachments on delivery failures unless surfaced here) -->
+        <Logger name="com.epam.reportportal" level="WARN" additivity="false">
+            <AppenderRef ref="ConsoleAppender"/>
+            <AppenderRef ref="RollingFileAppender"/>
+        </Logger>
+
         <!-- Logger for errors -->
         <Logger name="ERROR_LOGGER" level="ERROR" additivity="false">
             <AppenderRef ref="ConsoleAppender"/>

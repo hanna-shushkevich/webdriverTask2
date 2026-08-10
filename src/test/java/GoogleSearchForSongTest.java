@@ -3,11 +3,8 @@ import pages.YouTubePage;
 import pages.PageExecutionDecorator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.WebDriver;
-import driver.DriverManager;
 import utils.ScreenshotUtility;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,7 +19,7 @@ public class GoogleSearchForSongTest extends CommonConditions {
 
     @Test
     @DisplayName("Search for Banana Song via Google")
-    public void testBananaSearchYouTubeScenario() {
+    public void testBananaSearchYouTubeScenario() throws Exception {
         try {
             logger.info("Test: Search for Banana Song via Google - Starting");
             googleSearchPage = new GoogleSearchPage();

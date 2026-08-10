@@ -1,13 +1,9 @@
 import pages.GoogleSearchPage;
 import pages.YouTubePage;
-import pages.PageExecutionDecorator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.WebDriver;
-import driver.DriverManager;
 import utils.ScreenshotUtility;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,7 +12,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class BananaSearchTest extends CommonConditions {
     private static final Logger logger = LogManager.getLogger(BananaSearchTest.class);
 
-    private GoogleSearchPage googleSearchPage;
     private YouTubePage youTubePage;
 
 
