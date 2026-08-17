@@ -11,6 +11,9 @@ import utils.ScreenshotUtility;
 import utils.TestExecutionHelper;
 
 @ExtendWith({ReportPortalExtension.class, ReportPortalScreenshotExtension.class})
+// We are using RP extension here. As I understand "reportportal.properties" or env vars were used locally to pass settings which did their job.
+// It would be nice to add some comments or on project level README.md to explain to me (and you in future) how RP reporting config should be passed.
+
 public class CommonConditions {
 
     private static final Logger logger = LogManager.getLogger(CommonConditions.class);

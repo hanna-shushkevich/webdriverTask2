@@ -44,6 +44,8 @@ public class ScreenshotUtility {
                     System.nanoTime() % 1000); // Add nanotime for uniqueness in parallel execution
 
             String filePath = Paths.get(SCREENSHOTS_DIR, filename).toString();
+            // please add "screenshts" directory to .gitignore file.
+            // And add also "logs" folder, which is also create during tests run
 
             // Capture screenshot
             TakesScreenshot screenshot = (TakesScreenshot) driver;
